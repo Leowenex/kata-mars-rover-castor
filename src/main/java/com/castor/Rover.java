@@ -23,13 +23,14 @@ public class Rover {
     }
 
     public void sendCommands(List<Character> commands) {
+        boolean commandSuccess = true;
         for (Character command : commands) {
             switch (command) {
                 case 'F':
-                    moveForward();
+                    commandSuccess = moveForward();
                     break;
                 case 'B':
-                    moveBackward();
+                    commandSuccess = moveBackward();
                     break;
                 case 'L':
                     turnLeft();
@@ -38,17 +39,47 @@ public class Rover {
                     turnRight();
                     break;
             }
+            if (!commandSuccess) {
+                break;
+            }
         }
     }
 
-    private void moveForward() {
+    private boolean moveForward() {
         Vec2Int movement = this.direction.getForwardVector();
-        coordinates.add(movement);
+        Vec2Int targetCoord = Vec2Int.add(coordinates, movement);
+        if (planet.hasObstacle(targetCoord)) {
+            return false;
+        }
+        this.coordinates = targetCoord;
+        checkBoundaries();
+        return true;
     }
 
-    private void moveBackward() {
+    private boolean moveBackward() {
         Vec2Int movement = this.direction.getForwardVector().getOpposite();
-        coordinates.add(movement);
+        Vec2Int targetCoord = Vec2Int.add(coordinates, movement);
+        if (planet.hasObstacle(targetCoord)) {
+            return false;
+        }
+        this.coordinates = targetCoord;
+        checkBoundaries();
+        return true;
+    }
+
+    private void checkBoundaries() {
+        if (coordinates.getX() < 0) {
+            coordinates.setX(planet.getBoundaries().getX() - 1);
+        }
+        if (coordinates.getX() >= planet.getBoundaries().getX()) {
+            coordinates.setX(0);
+        }
+        if (coordinates.getY() < 0) {
+            coordinates.setY(planet.getBoundaries().getY() - 1);
+        }
+        if (coordinates.getY() >= planet.getBoundaries().getY()) {
+            coordinates.setY(0);
+        }
     }
 
     private void turnLeft() {
