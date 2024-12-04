@@ -1,4 +1,4 @@
-package info.dmerej;
+package com.castor;
 
 import org.junit.jupiter.api.Test;
 

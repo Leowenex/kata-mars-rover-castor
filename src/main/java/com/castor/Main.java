@@ -1,4 +1,4 @@
-package info.dmerej;
+package com.castor;
 
 public class Main {
     public int getAnswer() {
