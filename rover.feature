@@ -95,7 +95,7 @@ GIVEN
 WHEN
     It goes forward
 THEN
-    Its new coordinates are (9, 9) facing South
+    Its new coordinates are (0, 9) facing South
 
 
 
@@ -111,14 +111,15 @@ THEN
 
 
 
-Feature: ?
+Feature: Obstacle detection cutting command sequence
 
 GIVEN
-    ?
+    A Rover at coordinates (5, 5) facing North
+    An obstacle at coordinates (5, 7)
 WHEN
-    ?
+    Receives [F,F,F,F,F,F,R,R,R,F,F,F,B,B] command sequence
 THEN
-    ?
+    Its new coordinates are (5,6) facing North
     
 
 
